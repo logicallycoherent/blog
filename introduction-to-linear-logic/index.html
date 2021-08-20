@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-08-24 Tue 12:57 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction to Linear Logic and the Identity of Proofs</title>
+<meta name="generator" content="Org mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<style type="text/css">body { max-width: 60ex; margin-left: auto; margin-right: auto; padding-left: 1em; padding-right: 1em; font-family: sans}</style>
+<style type="text/css">img { max-width: 100% }</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Introduction to Linear Logic and the Identity of Proofs</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a>
+<ul>
+<li><a href="#Prerequisite-Knowledge">1.1. Prerequisite Knowledge</a></li>
+<li><a href="#Structure">1.2. Structure</a></li>
+<li><a href="#Broad-Overview-of-Applications-and-Proof-Theory">1.3. Broad Overview of Applications and Proof Theory</a></li>
+</ul>
+</li>
+<li><a href="#Why-a-New-Type-of-Logic?">2. Why a New Type of Logic?</a>
+<ul>
+<li>
+<ul>
+<li><a href="#classical-logic:-Syntax,-Semantics-and-Mathematical-Proofs">2.0.1. Classical Logic: Syntax, Semantics and Mathematical Proofs</a></li>
+<li><a href="#Classical-Sequent-Calculus">2.0.2. Classical Sequent Calculus</a></li>
+<li><a href="#Intuitionistic-Logic">2.0.3. Intuitionistic Logic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Linear-Logic">3. Linear Logic</a>
+<ul>
+<li><a href="#Syntax-of-Linear-Logic">3.1. Syntax of Linear Logic</a></li>
+<li><a href="#Semantics-of-Linear-Logic">3.2. Semantics of Linear Logic</a></li>
+</ul>
+</li>
+<li><a href="#The-Identity-of-Proofs">4. The Identity of Proofs</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5c947ce" class="outline-2">
+<h2 id="Introduction"><a id="org5c947ce"></a><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+Linear logic is relatively new type of logic created by Jean-Yves Girard in
+1987 [<a href="#girard">1</a>]. This logic is especially applicable to
+mathematics and computer science, but could also have potential wider ranging
+applications such as in chemistry, linguistics [<a href="#depaivaLinearLogicApplications">2</a>],
+game semantics [<a href="#depaivaLinearLogicApplications">2</a>]
+and quantum physics/computing [<a href="#no_cloning">3</a>]. Our focus today will be
+on what linear logic is, why it exists and how it relates to both computation
+and something called the identity of proofs.
+</p>
+</div>
+
+<div id="outline-container-org269a045" class="outline-3">
+<h3 id="Prerequisite-Knowledge"><a id="org269a045"></a><span class="section-number-3">1.1</span> Prerequisite Knowledge</h3>
+<div class="outline-text-3" id="text-Prerequisite-Knowledge">
+<p>
+You should know some basic (classical) logic. Basically, you need to
+understand what these symbols mean: \(\lor, \land, \lnot, \implies, \iff\)
+and what their <a href="https://en.wikipedia.org/wiki/Truth_table">truth tables</a> are. You need to understand how to read a
+mathematical proof, such as the one showing that <a href="https://en.wikipedia.org/wiki/Proof_by_contradiction#Irrationality_of_the_square_root_of_2">the square root of 2 is
+irrational</a>. You should know about proofs by <a href="https://en.wikipedia.org/wiki/Proof_by_contradiction">contradiction</a> and preferably
+proofs by <a href="https://en.wikipedia.org/wiki/Proof_by_contrapositive">contrapositive</a> too. Having some level of <a href="https://en.wikipedia.org/wiki/Mathematical_maturity">mathematical maturity</a>
+can't hurt either. No prior knowledge of formal logic syntax is assumed.
+</p>
+
+<p>
+This piece is aimed at both computer scientists and mathematicians, although
+programming and computer science knowledge isn't required unless you want to
+understand some of the applications.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2f9785d" class="outline-3">
+<h3 id="Structure"><a id="org2f9785d"></a><span class="section-number-3">1.2</span> Structure</h3>
+<div class="outline-text-3" id="text-Structure">
+<p>
+If for <i>some reason</i> the reader only has 5-10 minutes then it is worth looking
+over at least the following subsections:
+</p>
+<ol class="org-ol">
+<li>Section <a href="#Broad-Overview-of-Applications-and-Proof-Theory">1.3</a></li>
+<li>Section <a href="#classical-logic:-Syntax,-Semantics-and-Mathematical-Proofs">2.0.1</a></li>
+<li>Section <a href="#Semantics-of-Linear-Logic">3.2</a></li>
+<li>Section <a href="#The-Identity-of-Proofs">4</a></li>
+</ol>
+
+<p>
+First we give a broad <a href="#Broad-Overview-of-Applications-and-Proof-Theory">overview of proof theory</a> and how it fits in with the rest of
+mathematics. Then, to provide a relative grounding point for people who may
+not know much about formal systems or why alternative logic systems exist, an
+explanation is given on <a href="#Why-a-New-Type-of-Logic?">how formal systems work</a> for the type of logic the
+reader is expected to know about. This is followed by a brief visit on
+<a href="#Intuitionistic-Logic">intuitionistic logic</a> and what constructiveness is and why it arose.
+<a href="#Linear-Logic">Linear logic</a> is then explained using the definitions and analogies provided
+in the previous sections for both its syntax and semantics. Finally, the
+<a href="#The-Identity-of-Proofs">the identity of proofs</a> is given as a closing thought for how large questions
+are still being researched and how this relates to computation and proof
+theory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4497f8f" class="outline-3">
+<h3 id="Broad-Overview-of-Applications-and-Proof-Theory"><a id="org4497f8f"></a><span class="section-number-3">1.3</span> Broad Overview of Applications and Proof Theory</h3>
+<div class="outline-text-3" id="text-Broad-Overview-of-Applications-and-Proof-Theory">
+<p>
+Linear logic is the logic of state transitions and state machines. Whereas
+other types of logic (such as classical and intuitionistic) are concerned
+with truth, linear logic is concerned with state transitions and resource
+consumption. Given these are vital topics in most of computer science, it
+should be relatively easy to understand why a computer scientist may be
+interested in it, including for:
+</p>
+<ul class="org-ul">
+<li>Compilation and Optimisation</li>
+<li>Concurrency and Parallelism [<a href="#taste_of_ll">4</a>]</li>
+<li>Uniqueness Types (A variable that is only used in a single thread at any
+given time) [<a href="#uniqueness_types">5</a>]</li>
+<li>Formal verification</li>
+<li>Natural Language Processing [<a href="#depaivaLinearLogicApplications">2</a>]</li>
+</ul>
+<p>
+and more.
+</p>
+
+<p>
+Linear logic corresponds to linear type systems and is similar to affine type
+systems like that in Rust, so it should interest anyone who uses Linear
+Haskell, or move semantics in C++, or likes to Rewrite it in Rust™. For
+example, say you have a programming language and created a variable <code>f</code> to
+some resource that you want to get rid of, such as closing a file descriptor
+after you have finished writing to a file. You would then call some function
+<code>close(f)</code> to close the file descriptor (in Python this would be done
+automatically when you use <code>with open()</code> syntax). Once you have written to a
+file, it is an error to use the file descriptor again, so it is useful to
+have a type system that allows you to express that you cannot use it again.
+Languages such as C do not have type systems that can encode semantics like
+this resulting in a runtime error, and this is in contrast to other languages
+like Rust and Linear Haskell. In Rust, this can be done by defining the close
+function such that the function takes <i>ownership</i> of the variable. The
+compiler is then able to raise an error anytime <code>f</code> is used after <code>close(f)</code>.
+</p>
+
+<p>
+On the mathematical side, linear logic has close relations to proof theory
+and may help shine some light on what it means to prove something and how two
+mathematical proofs can be equivalent despite appearing completely different.
+We will explore this in more detail when we get onto the identity of proofs.
+Because, under the Curry-Howard correspondence, mathematical proofs are
+(functional) computer programs, it could also shine some light on how two
+different programs can have the same effects despite having completely
+different source codes.
+</p>
+
+<p>
+Proof theory is the study of mathematical proofs. This includes, for example,
+studying the complexity of proofs and what it means to prove something. We
+will mostly be concerned with the area that studies how two proofs can prove
+the same thing while being syntactically different. To illustrate how this
+can work, a simplification of our current mathematical knowledge is given
+below.
+</p>
+
+
+<div class="figure">
+<p><img src="./proof_theory_v2.png" alt="proof_theory_v2.png" />
+</p>
+</div>
+
+<p>
+This figure encapsulates all statements that can be true and false. Only a
+small number of statements are shown in the figure because of course we
+cannot list all possible statements, and certainly none of those which we do
+not know their truth values. Within this lies the cloud of human knowledge:
+the statements we <i>know</i> are true and false. This includes proven statements
+such as the Pythagorean Theorem and <code>1 + 2 = 3</code>, and proven false statements
+such as <code>1 = 2</code>. We want to be able to reason
+about how we derive mathematical proofs. Therefore, we need some kind of
+formalisms to reason about these facts. For example, we may know that
+<code>2 + 2 = 4</code> and therefore can derive, using some kind of logic rule
+(an "inference rule"), that its
+negation <code>2 + 2 ≠ 4</code> is false. This is shown as an arrow from the former
+to the latter to show that it takes one logical step to go from one to the
+other. Similarly, we could have known <code>2 + 2 = 4</code> from knowing that
+<code>2 + 1 = 3</code> and that adding <code>1</code> to both sides keeps its truth value the same.
+Therefore, we could have similarly derived <code>2 + 2 = 4</code> from the statement
+<code>1 + 2 = 3</code> even though that is <i>syntactically different</i> from
+<code>2 + 1 = 3</code>. This can be generalised to any statements <code>A, B, C</code> such
+that from <code>A</code> and <code>B</code> we can derive <code>C</code> or using both <code>A</code> and <code>B</code>
+together we can derive <code>C</code>.
+</p>
+
+<p>
+Consider how this diagram relates to proof by contradiction. First we start
+with a set of known statements and axioms. Then we consider some new statement
+for the proposition we are trying to prove and assume it is true. When we end
+up in a contradiction, that means that the new statement is incompatible with
+our current knowledge and so it follows that it must be false.
+</p>
+
+<p>
+There are mathematical structures like the one shown above and these form
+<i>syntactic categories</i> which will not be covered here. For now, we are
+rather concerned with the syntax and semantics of linear logic, which we will
+now start to look into. One theme that will keep coming up, which is not
+obvious to most computer scientists or even some mathematicians, is the idea
+that formal systems, their semantics and their mathematical applications are
+different. A formal system is a system with a set of rules that can be
+executed mechanically, such as by a computer, and has no other real meaning.
+The semantics of a system are possible interpretations of the mechanical
+formal system. And the reasons for having such notions was due to the proof
+theoretic need to formally study a corresponding mathematical proof's
+behaviour. An example of this is given below using classical logic.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6a069d8" class="outline-2">
+<h2 id="Why-a-New-Type-of-Logic?"><a id="org6a069d8"></a><span class="section-number-2">2</span> Why a New Type of Logic?</h2>
+<div class="outline-text-2" id="text-Why-a-New-Type-of-Logic?">
+<p>
+If you are not well acquainted with logic then the first thing you might ask
+would be: why a new type of logic? To understand this, we will start with
+classical logic and work our way through why alternatives would have arisen.
+</p>
+</div>
+
+<div id="outline-container-org0ca1463" class="outline-4">
+<h4 id="classical-logic:-Syntax,-Semantics-and-Mathematical-Proofs"><a id="org0ca1463"></a><span class="section-number-4">2.0.1</span> Classical Logic: Syntax, Semantics and Mathematical Proofs</h4>
+<div class="outline-text-4" id="text-classical-logic:-Syntax,-Semantics-and-Mathematical-Proofs">
+<p>
+Classical logic is the logic normally taught and used throughout
+any typical undergraduate mathematics course. It is the "standard" type of
+logic.
+</p>
+
+<p>
+There are three concepts at play here:
+</p>
+<ol class="org-ol">
+<li>Syntax</li>
+<li>Semantics</li>
+<li>Mathematical and Proof Theoretic Applications</li>
+</ol>
+
+<p>
+These three concepts will now be defined for classical logic.
+</p>
+
+<p>
+Let \(\{ a_1, a_2, \dots \} \cup \{\bot, \top\}\) be the set of all
+variables including the constants <b>bottom</b> (⊥) and <b>top</b> (⊤).
+Bottom represents universal and undoubtable contradiction while top
+represents universal and undoubtable tautology or truth.
+A classical logic formula is either a variable or constant, a negation
+\(\lnot\) of a formula, or two formulae joined up by one of the following
+binary connectives:
+</p>
+<ul class="org-ul">
+<li><b>Conjunction</b> ("and") \(\land\)</li>
+<li><b>Disjunction</b> ("or") \(\lor\)</li>
+<li><b>Implication</b> ("implies") \(\Rightarrow\)</li>
+</ul>
+<p>
+We typically use lowercase letters for variables (\(a\)) and uppercase for
+formulae (\(A\)).
+</p>
+
+<p>
+A formula in this system is said to be <b>derivable</b> if it can be produced
+using some particular set of mechanical rules. By mechanical, it is meant
+that it can be easily and formally instructed in such a way that even a
+computer could perfectly perform such operations with neither ambiguity nor
+error. This is what is meant by a <i>formal system</i> of logic, which will be
+defined further below once we have looked at the semantics and applications
+of a formal system.
+</p>
+
+<p>
+One possible <i>semantic interpretation</i> of the above syntax for variables
+and formulae is that each
+variable is a boolean variable that takes one of two values: <code>true</code> or
+<code>false</code>. A formula is <code>true</code> or a <b>tautology</b> if its truth table is always
+true regardless of the assignment of variables. For example,
+\(a \lor \lnot a\) is a tautology because it is always true. If a formula is
+only sometimes <code>true</code> &#x2014; meaning that there is at least one row,
+corresponding to one assignment of variables, in its truth table that
+results in the formula being true &#x2014; then it is <b>satisfiable</b>. For example,
+\(a \land b\) is satisfiable because it is <code>true</code> if only if \(a\) and
+\(b\) are assigned <code>true</code>.
+</p>
+
+<p>
+There does not have to be just one semantic for any system. Any system can
+have many semantics and this is why we separate the meaning of a mechanical
+system from its formal rigorous definitions.
+</p>
+
+
+<p>
+The above semantic interpretation and its system are used in order to try and model the
+type of mathematical reasoning used in a <b>standard mathematics proof</b>. That
+means any kind of proof that would be taught in most university courses,
+such as that of the square root of 2 being irrational. By modelling a proof
+such at that, we can then try to understand and reason about what is true or
+provable in mathematics. One particular area of interest is that proofs that
+prove the same statement can be completely different, either due to trivial
+changes like having statements appear in a slightly different order, or due
+to having some similar "essence" of the proof that is kept in both proofs.
+By studying what keeps this "essence" throughout vastly different proofs, we
+may find out what exactly are the core components of a proof and what it
+truly means to prove something. Hence this area of mathematics is called
+proof theory. From a computer science perspective, are two different
+computer programs of <code>mergesort</code> the same even if one is done in place and
+one is done by constructing a new array? What about more complex ways of
+writing a program that achieves the same effect? How would you write a
+compiler that understands this difference and any others that maintain the
+equivalence of the program?
+</p>
+
+<p>
+Before we can begin modelling mathematical proofs, we need to consider what
+underlying principles are at play when creating a standard mathematics
+proof. Here is a list of some [<a href="#plato_classical">6</a>,<a href="#plato_intuitionistic">7</a>]:
+</p>
+<ul class="org-ul">
+<li>The Law of Non-Contradiction: Something cannot be both true and false.
+\(\forall A: \lnot (A \land \lnot A).\)</li>
+<li>The Law of Excluded Middle (LEM): A statement is either true or false. If it
+is not true, then it must be false. \(\forall A: A \lor \lnot A\).
+This is how proof by contradiction works; if the square root of 2 is not
+rational then it must be irrational.
+This is also the main principle that mathematicians of another type of logic,
+known as intuitionistic logic, have a problem with.</li>
+<li>Double Negation Elimination (DNE): For all statements: \(\lnot \lnot A\) is
+equivalent to or otherwise implies \(A\).</li>
+<li>The Principle of Explosion: From absurd and contradictory statements you
+can prove anything. \(\forall A, B: (A \land \lnot A) \implies B\).
+A classic classical example of this is that by dividing by zero in a
+standard proof you can show that
+<a href="https://en.wikipedia.org/wiki/Division_by_zero#Fallacies"><code>1 = 2</code></a>.</li>
+<li>The DeMorgan Laws:
+\[\lnot (A_1 \land \dots \land A_n) \equiv \lnot A_1 \lor \dots \lor \lnot A_n\]
+\[\lnot (A_1 \lor \dots \lor A_n) \equiv \lnot A_1 \land \dots \land \lnot A_n\]
+We need to be careful about writing \(\equiv\) (equivalence) rather than =
+(equals).
+Semantically they are "equal" because the equations have the same boolean
+interpretation and standard mathematical meaning. However, because we are
+working at a lower level of mathematics where the differences are not
+abstracted away, we cannot just say that they are equal because
+syntactically (and "visually") they are not.</li>
+</ul>
+
+<p>
+When creating a formal system, the goal is to identify these equivalences in
+a meaningful way to model the semantic equality. Once you have considered
+the standard mathematical properties, you can create a mechanical system
+that has the desired semantics in order to model standard mathematics
+proofs. This is why formal systems, their semantics and their applications
+are different, though they are clearly closely related. Let's now look at
+what an actual formal system looks like.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4360e93" class="outline-4">
+<h4 id="Classical-Sequent-Calculus"><a id="org4360e93"></a><span class="section-number-4">2.0.2</span> Classical Sequent Calculus</h4>
+<div class="outline-text-4" id="text-Classical-Sequent-Calculus">
+<p>
+One mechanical syntactic system is sequent calculus. A <b>sequent</b> is a
+collection of formulae of the form
+\[ P_1, \dots, P_n \vdash Q_1, \dots, Q_n \]
+which has the semantic meaning that
+\[ P_1 \land \dots \land P_n \implies Q_1 \lor \dots \lor Q_n. \]
+The symbol ⊢ is known as a turnstile.
+</p>
+
+<p>
+Since in classical logic
+\[P \implies Q \equiv \lnot P \lor Q,\]
+often a single-sided sequent calculus is used and we can rewrite the above
+sequent as
+\[ \vdash \lnot P_1, \dots, \lnot P_n, Q_1, \dots, Q_n. \]
+</p>
+
+<p>
+We often do not want to write an entire sequent when looking at just one
+part of it, as they can get rather large, so we write capital Greek letters,
+typically \(\Gamma, \Delta\) in place of an arbitrary list of
+formulae including a zero-length list. The above sequents can be rewritten
+as \(\Gamma \vdash \Delta\) and \(\vdash \lnot \Gamma, \Delta\) where
+\[\Gamma = P_1, \dots, P_n,\]
+\[\lnot \Gamma = \lnot P_1, \dots \lnot P_n\]
+and
+\[\Delta = Q_1, \dots, Q_n.\]
+</p>
+
+<p>
+An <b>inference rule</b> is a rule that, given one, two or three sequents, allows
+you to deduce another sequent. A <b>derivation</b> (or <b>derivation tree</b>) is a
+finite tree of inference rules with sequents as nodes and inference rules as
+edges, for example:
+</p>
+
+
+<div class="figure">
+<p><img src="./prooftree_classical.png" alt="prooftree_classical.png" />
+</p>
+</div>
+
+<p>
+This can be read as "I know \(P\) and \(P \implies Q\) so I can deduce,
+using some inference rule called <code>cut</code>, that I know \(Q\). Similarly, I also know
+\(Q \implies R\) so I can further deduce that I know \(R\)."
+For example, if \(P\) is the statement "I have shelter" and \(P \implies Q\)
+is "If I have shelter then I am happy", then using the <code>cut</code> rule we can
+derive the statement "I am happy".
+In this example, <code>cut</code> is an inference rule and is one that is common in
+many formal systems because it allows you to "cut out" the implications
+between formulae.
+</p>
+
+<p>
+If you think about it, most of the time when proving a standard mathematics
+proof you are using the <code>cut</code> rule. For example, when you write in a proof
+"\(2 = a^2/b^2\) and because multiplying something on both sides
+yields the same result we know that therefore \(2b^2 = a^2\)" you are using
+the <code>cut</code> rule where \(P\) is the statement "\(2 = a^2/b^2\)
+and multiplying two equal statements by \(b^2\) on both sides gives an equal
+result" and \(Q\) is the statement \(2b^2 = a^2\).
+</p>
+
+
+<p>
+The standard sequent calculus for classical logic is called <code>LK</code> and was given
+by Gentzen [<a href="#gentzen1">8</a>]. Here, we will look at a different system called <code>CSC</code> (Classical
+Sequent Calculus) [<a href="#gentzen1">8</a>,<a href="#ll_primer">9</a>]shown below.
+</p>
+
+
+<div class="figure">
+<p><img src="./csc.png" alt="csc.png" />
+</p>
+</div>
+
+<p>
+First, lets look at the names of the rules and their size. Notice that there
+are a lot of rules, partly because there are two variations on each rule: a
+left "L" version and a right "R" version for each side of the turnstile. One
+reason for using a single sided sequent calculus is to reduce the number of
+rules you have to work with. Also notice that some inference rules like \(LW\) and
+\(L\land\) have one sequent above the horizontal line
+that the rules take as "input" (called a <b>premise</b>). Others like
+<code>cut</code> have two. All inference rules have one sequent below the horizontal
+line: the <b>conclusion</b>. \(Id\) has zero premises and
+is therefore called an <b>axiom</b> rule. It reads "If I know nothing, then I can
+derive that: if I know \(A\) then I know \(A\)." <code>cut</code> is the rule explained
+earlier, with additional symbols \(\Gamma\) and \(\Delta\) to show that we
+can use <code>cut</code> on sequents with any number of formulae in them.
+\(LX\) and \(RX\) are "exchange" rules that swap any two formulae in a
+sequent and encode the idea that \(\land\) and \(\lor\) are
+commutative. For example, if we can derive a formula of \(a \land b\) using
+\(L\land\) on the sequent \(a, b \vdash\) then
+we can equally derive \(b \land a\) by using the exchange rule first to get
+\(b, a \vdash\) and then use \(L\land\). We cannot
+exchange beyond the turnstile and this encodes the idea that implication is
+not commutative.
+\(LW\) and \(RW\) are "weakening" rules. For example, "If I know \(A\) then I know \(B\)"
+becomes "If I know \(A\) and \(C\) then I know \(B\)", which "weakens" the statement.
+\(LC\) and \(RC\) are "contraction" and are almost inverses of the weakening rules.
+The rest of the rules should be fairly straightforward based on the
+definitions of the various connectives.
+You do not need to memorise these rules but we will refer back to them,
+especially the exchange, contraction and weakening rules.
+</p>
+
+<p>
+Sometimes, the following axioms
+</p>
+
+
+<div class="figure">
+<p><img src="./bottom_top.png" alt="bottom_top.png" />
+</p>
+</div>
+
+<p>
+are used instead of \(L\lnot\) and \(R\lnot\). In this case, \(\lnot A\) is
+taken to be \(A \implies \bot\) which means "If I know \(A\) then I get a
+contradiction". We can then derive \(L\lnot\) and \(R\lnot\) using the
+\(L\Rightarrow\) and \(R\Rightarrow\) inference rules.
+</p>
+
+<p>
+Sequent calculus systems create formulae by starting with <b>axiom</b> inference
+rules and concatenating and rearranging the formulae using other inference rules.
+This creates a <b>derivation tree</b>. A derivation tree that starts with axioms
+is called a <b>proof</b>. An example of proofs is given a bit further below.
+</p>
+
+<p>
+Formal systems like <code>CSC</code> and <code>LK</code> explain why we can have nonsense statements that are "true" in proofs, such
+as that \(57 < 6012 \implies a \in \{a, b\}\).
+True implies true so the above statement is true.
+When we write an implication, ideally we want to show that the two
+statements are linked such that one follows from the other, and we can do
+this when we, for example, write
+\(2 \text{ divides } 12 \implies 12\text{ is even}.\)
+Clearly 2 divides 12 means that 12 is even because that is the definition of
+something being even.
+And we encode that in our mechanical system by saying that any statement
+that is derivable implies another one (in the boolean interpretation, the
+semantics say that true implies true.)
+But our mechanical system cannot encode that "unrelated" statements don't
+imply each other because actually there's no such thing as two unrelated statements.
+In practice, implication is used for statements where there exists any
+number of intermediate statements from one to the other, and the amount of
+steps you can have in between before it feels "weird" is just a subjective
+thing that the author of a proof has to decide based on their audience.
+It is <i>possible</i> to connect \(57 < 6012\) and
+\(a \in \{a, b\}\) in a very roundabout way such as by showing that
+\[\begin{align*}
+    57 < 6012 &\iff 57 < 58 < \dots < 6012
+    \\ &\implies 1 < 2
+    \\ &\implies \{\varnothing\} \subseteq \{\varnothing, \{\varnothing\}\}
+    \\ &\cong \{a\} \subseteq \{a, b\}
+    \\ &\implies a \in \{a, b\}
+    \end{align*}\]
+where <a href="https://en.wikipedia.org/wiki/Set-theoretic_definition_of_natural_numbers">\(0 := \varnothing, 1 := \{\varnothing\} \text{ and } 2 := \{\varnothing, \{\varnothing\}\}.\)</a>
+And because implication is transitive we can shorten that to the initial
+statement above.
+Perhaps we should say that \(1 < 2\) implies that \(57 < 6012\) because that
+is more elegant because our axioms are centred around 0 and 1, but that
+doesn't mean that you couldn't have a proof in the other direction.
+What we want is to do is preserve the rules defined above such as the Law of
+Non-Contradiction and the Principle of Explosion, and our mechanical system
+and its boolean semantics do exactly this.
+</p>
+
+<p>
+Now, as previously mentioned, a sequent calculus system is created in order
+to provide a semantic model. The semantic model for classical sequent
+calculi is the boolean interpretation. In order to be modelled in the boolean
+interpretation it is desirable for the system to be <i>sound</i> and <i>complete</i>
+[<a href="#classical_interpretation">10</a>].
+Together, these two properties informally state that a formula
+\(A \implies B\) is a tautology (i.e. always true no matter the
+assignment of booleans to variables) whenever the sequent
+\(\vdash A \implies B\) is derivable in a derivation tree where all branches
+only begin with axioms [<a href="#classical_interpretation">10</a>].
+This has been proven for a superset of <code>CSC</code> [<a href="#classical_interpretation">10</a>].
+Similarly, a formula is satisfiable in the boolean interpretation if there
+is a "partial derivation" that can be used inside a proof.
+</p>
+
+<p>
+Notice that some of the standard mathematical properties given earlier, such
+as the Law of Excluded Middle (LEM) and Double Negation Elimination (DNE)
+are not included as inference rules in <code>CSC</code>. That is because they can be
+derived using the existing inference rules for any formula.
+For example, let \(A\) be any formula, then we can derive the LEM using the
+following proof:
+</p>
+
+
+<div class="figure">
+<p><img src="./prooftree_lem.png" alt="prooftree_lem.png" />
+</p>
+</div>
+
+<p>
+Similarly, let \(\Gamma \vdash \lnot \lnot A\), where \(\Gamma\) can be empty
+and \(A\) is any formula. If we have a derivation proof called \(\Pi\) of this
+sequent we can derive \(\Gamma \vdash A\) which corresponds to DNE:
+</p>
+
+
+<div class="figure">
+<p><img src="./prooftree_dne.png" alt="prooftree_dne.png" />
+</p>
+</div>
+
+<p>
+There can also be arbitrary formulae to the left and right of \(\lnot \lnot A\) and we
+just need to modify this proof by adding as many exchange rules as
+necessary.
+</p>
+
+<p>
+If we wanted to use the LEM or DNE as part of a larger proof, then we insert
+these proofs into the larger proof as a top-level "branch" of the larger
+proof tree. Clearly, proof trees can get very large very quickly. However,
+we can still verify any derivation unambiguously using the mechanical
+inference rules given (preferably with a computer).
+</p>
+
+<p>
+It is usually fairly easy to show for other systems that are not <code>CSC</code> that
+if you have a DNE rule in a system (or if you can derive the DNE by joining
+up existing rules and inserting it into the same place in a proof) you can
+derive the LEM.
+</p>
+
+<p>
+Having the LEM in a mathematical system, and therefore in a formal system,
+is disputed by mathematicians who practice intuitionistic logic
+[<a href="#philosophical_basis_of_intuitionistic_logic">11</a>]. Because any system where
+DNE is derivable means that the LEM is derivable,
+intuitionistic systems don't have either
+[<a href="#philosophical_basis_of_intuitionistic_logic">11</a>].
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd2efa67" class="outline-4">
+<h4 id="Intuitionistic-Logic"><a id="orgd2efa67"></a><span class="section-number-4">2.0.3</span> Intuitionistic Logic</h4>
+<div class="outline-text-4" id="text-Intuitionistic-Logic">
+<p>
+So what is wrong with classical logic if everyone uses it?
+Consider the following proof:
+</p>
+
+<p>
+<b>Proposition</b>: There are irrational numbers \(p, q\) such that \(p^q\)
+ is rational.
+</p>
+
+<p>
+<b>Proof</b>: Let both \(p, q = \sqrt{2}\) such that
+\[p^q = \sqrt{2}^{\sqrt{2}}.\]
+If that is rational then we are done. Otherwise, by the Law of Excluded
+Middle, if it's not rational then it must be irrational.
+But then
+\[(p^q)^q = \sqrt{2}^2 = 2\]
+which is rational.
+</p>
+
+<p>
+The proof above would not be a valid proof in intuitionistic logic because
+it is not <b>constructive</b> [<a href="#princeton_companion_book">12</a>]. It is not
+constructive because it uses the Law of Excluded Middle and therefore does
+not <i>construct</i> two irrational numbers that satisfy the statement, meaning
+that it does not explicitly state them [<a href="#princeton_companion_book">12</a>].
+The proof merely states that it must be one or the other without proving
+which one it must be. This distressed some logicians
+[<a href="#princeton_companion_book">12</a>], perhaps because it is like having quantum
+mechanics in your logic system because it shows that one of the
+possibilities is true without observing/constructing which one is true.
+Intuitionistic logic was created to solve this problem
+[<a href="#law_excluded_middle_nonconstructive">13</a>,<a href="#intuitionistic_implication_and_dne">14</a>].
+</p>
+
+<p>
+Note that for this particular proposition it <i>is</i> possible to have a proof in
+intuitionistic logic, but for other statements it may not be possible:
+</p>
+
+<p>
+<b>Proposition</b>: We can prove in intuitionistic logic (constructively) that
+there are irrational \(p, q\) such that \(p^q\) is rational.
+</p>
+
+<p>
+<b>Proof</b>: Let \(p = \sqrt{2}\) and \(q = \log_29.\) Then \(p^q = 3.\)
+</p>
+
+<p>
+You can show that the square root of 2 and logarithms are irrational using a
+proof like that in [<a href="#estermann_1975">15</a>,<a href="#sqrt2_irrational_intuitionistic">16</a>].
+</p>
+
+<p>
+Recall that Double Negation Elimination implies the Law of Excluded Middle
+and so intuitionistic logic goes without both. Since it forgoes DNE, extra
+care must be taken when proving statements. If \(P\) is some statement, then
+a proof of \(P\) constructively shows that the statement is true, while a proof
+of \(\lnot P\) means that <i>there is a proof that there is no proof</i> of
+\(P\), usually by contradiction.
+The meaning of \(P \land Q\) is that you have two proofs: one of \(P\) and
+one of \(Q\), while \(P \lor Q\) means that you either have a proof of one
+or the other. Similarly, the new meaning of \(P \implies Q\) is that a proof
+of \(P\) can be used in some way such that you can prove \(Q\), rather than
+\(\lnot P \lor Q\)<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
+[<a href="#intuitionistic_implication_and_dne">14</a>].
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Proof_by_contrapositive">Contraposition</a> still holds in intuitionistic logic but it is
+more fragile. It still holds that
+\[(P \Rightarrow Q) \implies (\lnot Q \Rightarrow \lnot P)\]
+because if you have a proof of \(\lnot Q\) (so you have a proof that there
+is no proof of \(Q\)) and a proof of \(P\) then you can construct
+\(Q \land \lnot Q\) which is contradictory:
+</p>
+
+
+<div class="figure">
+<p><img src="./prooftree_intuitionistic_noncontradiction.png" alt="prooftree_intuitionistic_noncontradiction.png" />
+</p>
+</div>
+
+<p>
+So if you have a proof of \(P \implies Q\) and \(\lnot Q\) then you cannot
+have a proof of \(P\), which is the very definition of \(\lnot P\). Thus,
+contraposition in one direction holds.
+However, for the other direction
+\[(\lnot Q \Rightarrow \lnot P) \implies (P \Rightarrow \lnot \lnot Q)\]
+holds rather than
+\[(\lnot Q \Rightarrow \lnot P) \implies (P \Rightarrow Q).\]
+This is because given a proof of
+\(\lnot Q \implies \lnot P\) and a proof of \(P\) and \(\lnot Q\)
+then we can similarly construct \(P \land \lnot P\):
+</p>
+
+
+<div class="figure">
+<p><img src="./prooftree_intuitionistic_noncontradiction_2.png" alt="prooftree_intuitionistic_noncontradiction_2.png" />
+</p>
+</div>
+
+<p>
+So we cannot prove \(\lnot Q\) which is encoded as \(\lnot \lnot Q\).
+A proof of \(\lnot \lnot Q\) cannot be turned into a proof of \(Q\) because
+we cannot just assume that \(Q\) is true simply because we have no proof of
+there being no proof of \(Q\).
+</p>
+
+<p>
+By excluding the Law of Excluded Middle, we have created a new logic system.
+The statements that this system can prove are different, some might say more
+limited, than what you can prove in classical logic. But in return, we have
+gained a system where we understand <i>why</i> a statement is true rather than just
+because we have used the Law of Excluded Middle or because the magic
+booleans align themselves.
+</p>
+
+<p>
+A formula in intuitionistic logic is any variable or the constants bottom
+and top, or any two formulae connected by \(\land, \lor, \rightarrow.\)
+Sometimes we use a different arrow to show that intuitionistic has a different
+form of implication. We also do not use \(\lnot\) to emphasise that we want
+\(\lnot A\) to be expressed as \(A \rightarrow \bot.\)
+</p>
+
+<p>
+The sequent calculus for intuitionistic logic can be obtained by replacing
+the implication rules <a href="#Classical-Sequent-Calculus">\(L\Rightarrow\) and \(R\Rightarrow\) in <code>CSC</code></a>
+[<a href="#intuitionistic_replace_rimplies">17</a>]
+with
+</p>
+
+
+<div class="figure">
+<p><img src="./csc_intuitionistic.png" alt="csc_intuitionistic.png" />
+</p>
+</div>
+
+<p>
+The left version is merely a syntactic difference. It is the process of
+restricting \(R\Rightarrow\) to only having one formula on the right of the
+turnstile that makes the sequent calculus intuitionistic
+[<a href="#intuitionistic_replace_rimplies">17</a>]
+because otherwise we could simply prove
+</p>
+
+
+<div class="figure">
+<p><img src="./prooftree_intuitionistic_lem.png" alt="prooftree_intuitionistic_lem.png" />
+</p>
+</div>
+
+<p>
+which is the Law of Excluded Middle.
+</p>
+
+<p>
+To summarise, classical logic is about boolean truth values, while
+intuitionistic logic is about constructing proofs.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc51c9e2" class="outline-2">
+<h2 id="Linear-Logic"><a id="orgc51c9e2"></a><span class="section-number-2">3</span> Linear Logic</h2>
+<div class="outline-text-2" id="text-Linear-Logic">
+<p>
+Linear logic is a constructive logic created by Jean-Yves Girard [<a href="#girard">1</a>].
+It has shown use cases in optimising and compiling concurrent programming
+languages [<a href="#girard">1</a>,<a href="#taste_of_ll">4</a>], theorem provers, and it has a very
+interesting resource interpretation that could have wider applications.
+</p>
+
+<p>
+Linear logic can be thought of as a superset of both classical and
+intuitionistic logic because <i>it can embed both in its system</i>
+[<a href="#taste_of_ll">4</a>,<a href="#plato_linear_logic">18</a>]. By formally studying this logic and what
+makes certain proofs equivalent, we may be able to better understand the same
+for classical logic. Note that by doing this, we usually use a semantic that
+models what makes derivations equivalent. Therefore, by studying linear logic,
+we may figure out what is the essence that makes algorithms and computer
+programs "equivalent".
+</p>
+</div>
+
+<div id="outline-container-orgcee2d46" class="outline-3">
+<h3 id="Syntax-of-Linear-Logic"><a id="orgcee2d46"></a><span class="section-number-3">3.1</span> Syntax of Linear Logic</h3>
+<div class="outline-text-3" id="text-Syntax-of-Linear-Logic">
+<p>
+Just like how intuitionistic logic forgoes the law of excluded middle, linear
+logic forgoes (unrestricted) contraction and weakening [<a href="#taste_of_ll">4</a>,<a href="#lazy">19</a>].
+As explained above, weakening is the inclusion of an additional formula in a
+disjunction of formulae with no real proof and was given by <a href="#Classical-Sequent-Calculus">\(RW\) in <code>CSC</code></a>
+(we will ignore left versions and only focus on single sided sequent calculi
+from now on). Meanwhile, contraction is the exclusion, or discard, of a
+duplicated formula and was given by <a href="#Classical-Sequent-Calculus">\(RC\) in <code>CSC</code></a>. In classical and
+intuitionistic logic, once we have derived a formula we can use it again and
+again, after all, proof is universal. However, in, for example, programming
+languages, where proofs correspond to instances of types, it may not be so
+feasible to copy a variable as many times as needed. Therefore, it is useful
+to have a logic that takes into account that we have finite resources and
+cannot just "copy" and "create" formulae at will by using weakening and
+contraction. Some controlled use of contraction and weakening are given in
+linear logic by the new unary connectives \(!\) "of course" and \(?\) "why
+not".
+</p>
+
+<p>
+The following two inference rules are two natural inference rules for
+conjunction ("and"):
+</p>
+
+
+<div class="figure">
+<p><img src="./linear_conjunction.png" alt="linear_conjunction.png" />
+</p>
+</div>
+
+<p>
+However, notice that with contraction and weakening we can derive each
+inference rule from the other:
+</p>
+
+
+<div class="figure">
+<p><img src="./linear_conjunction_derived.png" alt="linear_conjunction_derived.png" />
+</p>
+</div>
+
+<p>
+This can be interpreted as the two rules being equivalent under a system with
+weakening and contraction. Since linear logic doesn't have this, they cannot
+be interpreted as equivalent and this gives the motivation for having two
+forms of conjunction ("and") and similarly disjunction ("or").
+</p>
+
+<p>
+The four major connectives of linear logic are shown in the table below.
+</p>
+
+
+<div class="figure">
+<p><img src="./additive_multiplicative.png" alt="additive_multiplicative.png" />
+</p>
+</div>
+
+<p>
+Additive conjunction and disjunction are called (&amp;) "with" and (\(\oplus\)) "plus"
+respectively, while multiplicative conjunction and disjunction are called
+(\(\otimes\)) "tensor/times" and (⅋) "par". Yes, par is an upside-down
+ampersand<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>. It's not clear why Girard chose this esoteric character that isn't
+supported by Mathjax and many fonts.
+</p>
+
+<p>
+They are called multiplicative and additive because
+\(\otimes\) is distributive over
+\(\oplus\) such that
+\[A \otimes (B \oplus C) \equiv (A \otimes B) \oplus (A \otimes C)\]
+and similarly for &amp; and ⅋.
+</p>
+
+<p>
+The other binary connective in linear logic is linear implication
+"lollipop" \(\multimap\). We have three unary connectives: \(!\) "of course", \(?\)
+"why not" and perp \(^{\perp}\). Perp is linear logic's negation but for clarity I
+will use an overline: \(\overline{A}\) instead of \(A^\perp\). There are four
+constants because we have four binary connectives and they are respectively
+for \(\oplus\), \(\otimes\), ⅋ and &amp;: 0, 1, \(\bot\) and \(\top\).
+A formula is therefore any variable or the above constants, or any formula
+connected by a unary connective, or any two formulae connected by any binary
+connective.
+</p>
+
+<p>
+We have many perp "dualities" inculding DeMorgan dualities: &amp; is
+DeMorgan dual to \(\oplus\) such that
+\[ \overline{A \oplus B} \equiv \overline{A} \& \overline{B} \]
+and
+\[ \overline{A \& B} \equiv \overline{A} \oplus \overline{B} \]
+and similarly \(\otimes\) is DeMorgan dual to ⅋.
+\(A \multimap B\) is defined as being equivalent to \(A^\perp\) ⅋ \(B\).
+Additionally, \(\overline{\overline{A}} \equiv A,\) \(\overline{1} \equiv \bot,\)
+\(\overline{\bot} \equiv 1,\) \(\overline{0} \equiv \top\) and
+\(\overline{\top} \equiv 0\) which means \(A\) is dual to its negation,
+bottom and 1 are dual, and also similarly 0 and top are dual.
+There are also many other dualities.
+</p>
+
+<p>
+One example of a sequent calculus for a linear logic system is:
+</p>
+
+
+<div class="figure">
+<p><img src="./ll.png" alt="ll.png" />
+</p>
+</div>
+
+<p>
+This is a single sided sequent calculus as a double sided sequent calculus
+would have twice as many rules. There are larger systems for predicate logic
+using \(\forall, \exists\).
+We will not be looking into this system in detail here. You need to
+understand sequent calculus in order to see why the syntax for linear logic
+came about and what it means (ultimately the syntax means nothing; it's the
+semantics/interpretation that means something). Knowing the precise rules of
+linear logic is only useful if you want to prove a result about its syntax,
+which is out of scope here. This system is given to show what a formal system
+for linear logic can look like.
+</p>
+
+<p>
+In order to understand and prove results about logic syntax, it is worth
+starting with a simpler system than full linear logic. The "exponential"
+operators \(!\) and \(?\) are not studied as often compared to smaller
+systems, such as <code>MALL</code> (Multiplicative Additive Linear Logic) which excludes
+the exponentials and <code>MLL-</code> (Multiplicative Linear Logic Without Units) which
+further excludes the additives and units. The more rules a system has the
+more complex it is and that's why <code>MLL-</code> is one of the simpler and most
+studied subsystem of linear logic, having only 5 inference rules
+(<code>id</code>, <code>exch</code>, ⅋, \(\otimes\), <code>cut</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0e00dee" class="outline-3">
+<h3 id="Semantics-of-Linear-Logic"><a id="org0e00dee"></a><span class="section-number-3">3.2</span> Semantics of Linear Logic</h3>
+<div class="outline-text-3" id="text-Semantics-of-Linear-Logic">
+<p>
+There is a satisfying resource interpretation [<A Href="#LinearLogicIts1995">20</A>]
+of linear logic that naturally extends itself to computer science. This is
+given informally.
+</p>
+
+<p>
+Suppose you have a dollar \(d\) and go to
+a dollar store that sells one dollar broccoli \(b\) and one dollar ice cream \(i\).
+The only logically sensible choice is of course to buy broccoli so you can
+write this as \(d \multimap b\) which means one dollar gives you one stalk of
+broccoli. This is not the same as in other logic systems where
+\(d \land (d \implies b)\) can derive \(d \land b\) such that you have broccoli
+and still have the dollar because other logics are about truth not resources
+and truth is universal. Linear implication encodes the idea that you cannot
+have something back once you exchange it. This means that unless you are a thief
+you cannot have \(d \multimap b \otimes b\), which means that one dollar
+gives you two broccoli, but rather \(d \otimes d \multimap b \otimes b\)
+which means two dollars gives you two broccoli and you need twice the number
+of bags to carry them home. In computer science terms, we could say \(d\) is a
+byte of memory and \(b\) and \(i\) are types instantiated in that byte of memory.
+Therefore, we cannot have two types occupying the same memory location.
+</p>
+
+<p>
+Let's say you succumb to your primal desires and consider both choices equally
+valid. Then you can write \(d \multimap b \operatorname{\&} i\) which means
+that you can have either broccoli or ice cream at your choice. You only need
+resources (a bag) for \(b\) or \(i\).
+</p>
+
+<p>
+\(b \oplus i\) represents that you can have broccoli or ice cream but the seller
+chooses for you. You still only need a bag for one or the other.
+</p>
+
+<p>
+There is less information on what \(b\) ⅋ \(i\) should mean, perhaps because
+it is used less in practice, but it is a
+disjunction of \(b\) and \(i\) such that the seller
+chooses for you and you need resources (space in your bag) for both at once
+because you don't know which one you are going to get.
+</p>
+
+<p>
+Buss gave an interesting metaphor for this
+[<a href="#bussIntroductionProofTheory1998">21</a>]
+by describing a military that needs to
+fend off an invasion. \(b \oplus i\) represents being invaded in one of two
+places \(b\) or \(i\) but you know ahead of time where you will be invaded be so you only
+need to deploy enough resources to take of the invasion in one of \(b\) or \(i\),
+while \(b\) ⅋ \(i\) means being invaded in either place but you cannot know where
+ahead of time so you need to deploy a military for each location which uses
+more resources.
+</p>
+
+<p>
+Considering the above, we could rename:
+</p>
+<ul class="org-ul">
+<li>"multiplicative" with "needs resources for both"</li>
+<li>"additive" with "needs resources for one or the other"</li>
+<li>"\(\oplus\)" with "determinant disjunction"</li>
+<li>"⅋" with "indeterminant disjunction"</li>
+</ul>
+<p>
+which gives us the resource interpretation for linear logic.
+</p>
+
+<p>
+In type theory \(\oplus\) models sum types, \(\otimes\) models product types,
+\(\multimap\) models a function that takes ownership of its arguments and &amp;
+is one of two values that's not evaluated until a choice is made
+(dynamically).<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>
+</p>
+
+<p>
+The actual formal semantics of linear logic are a bit out of scope for now as
+they get rather complex quickly. Girard originally proposed two semantics in his
+original paper:
+</p>
+<ol class="org-ol">
+<li>Phase spaces</li>
+<li>Coherence spaces</li>
+</ol>
+<p>
+which model derivations of formulae using monoids and cliques inside
+reflexive graphs respectively.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge3efa7d" class="outline-2">
+<h2 id="The-Identity-of-Proofs"><a id="orge3efa7d"></a><span class="section-number-2">4</span> The Identity of Proofs</h2>
+<div class="outline-text-2" id="text-The-Identity-of-Proofs">
+<p>
+Finally, let us consider one area called the identity of proofs. In all other
+areas of mathematics you have a notion of what it takes for something to be
+equal (or at least equal up to the point mathematicians lose interest:
+isomorphism) [<a href="#strassburgerProofNetsIdentity1992">22</a>]. Two sets are the same if
+they contain the same elements or are isomorphic if they have the same size.
+Two graphs are isomorphic if their vertices and edges map onto each other.
+Two fields are equivalent if they have a ring isomorphism between. And two
+proofs/derivations are equivalent if they are syntactically equal (they use
+the exact same rules on the exact same formulae). But then, what about the
+<a href="#Classical-Sequent-Calculus">exchange rule</a>? Say you have two exchange rules that cancel each other out:
+one swaps \(A, B\) to \(B, A\) and the other reverts it immediately back to
+\(A, B\). Obviously a proof that contains these two exchange rules should be
+"isomorphic"/equivalent to one that does not. But this opens a can of worms
+that we call the identity of proofs [<a href="#strassburgerProofNetsIdentity1992">22</a>]:
+what are proofs and how are they equivalent?
+</p>
+
+<p>
+There are many, many obvious ways to transform one proof into another that
+keeps its general structure intact. So the first question is where do we draw
+the line? This is an active area of research. The <a href="#Classical-Sequent-Calculus"><code>cut</code></a> rule is a large pain
+because it exponentially increases the complexity of this question. This is
+one reason why it is desirable to find something called a "cut elimination"
+procedure for a sequent calculus that transforms a proof into one without any
+<code>cut</code>.
+</p>
+
+<p>
+Are any two proofs that are the same after cut elimination
+equivalent? Are two proofs equal if they derive the same formula? Should
+<code>mergesort</code> and <code>quicksort</code> be "equal" just because they have the same
+result of sorting an array? Probably not. So ideally we would have some
+notion of how two derivations "restructure variables" in the same way but
+defining this is not an easy task.
+</p>
+
+<p>
+There is another question of how do we formalise all this. Using sequents
+makes this messy and ugly and "bureaucratic". One way to do this is to use
+the semantics like phase and coherence spaces. In his original paper, Girard
+proposed a method called proof nets, which keeps track of all variables in a
+sequent that were created by the same axiom. Others have used categorical
+semantics in order to model this. This too is an area of active research.
+</p>
+
+<p>
+By studying linear logic we may therefore be able to understand the nature of
+proofs, not just in linear logic but also classical and intuitionistic, and
+the nature of algorithms and computation.
+</p>
+
+
+<h1>Bibliography</h1><ol><li><a name="girard"></a>Girard, Linear logic, <i>Theoretical computer science</i> <b>50</b> 1--101 (1987).</li><li><a name="depaivaLinearLogicApplications"></a>de Paiva, van Genabith, Ritter & Crouch, Linear Logic and Applications, <i></i> <b></b> 22 ().</li><li><a name="no_cloning"></a>Abramsky, No-cloning in categorical quantum mechanics, <i>Semantic Techniques in Quantum Computation</i> <b></b> 1--28 (2009).</li><li><a name="taste_of_ll"></a>Wadler, A taste of linear logic, 185--210, in in: Mathematical Foundations of Computer Science 1993, Springer Berlin Heidelberg (1993)</li><li><a name="uniqueness_types"></a>Barendsen & Smetsers, Uniqueness typing for functional languages with graph rewriting semantics, <i>Mathematical Structures in Computer Science</i> <b>6</b> 579–612 (1996).</li><li><a name="plato_classical"></a>Shapiro, Classical Logic, in in: The Stanford Encyclopedia of Philosophy, Metaphysics Research Lab, Stanford University (2017)</li><li><a name="plato_intuitionistic"></a>Moschovakis, Intuitionistic Logic, in in: The Stanford Encyclopedia of Philosophy, Metaphysics Research Lab, Stanford University (2015)</li><li><a name="gentzen1"></a>Gentzen & Szabo, The Collected Papers of Gerhard Gentzen, ed, University of Chicago Press (1972).</li><li><a name="ll_primer"></a>Danos & Di Cosmo, The linear logic primer (1997), In preparation, preliminary version available at http://www.dicosmo.org/CourseNotes/LinLog/</li><li><a name="classical_interpretation"></a>Simpson & Takeuti, Proof theory, <i>Semantics of Intuitionistic Modal Logic</i> <b></b> (1987).</li><li><a name="philosophical_basis_of_intuitionistic_logic"></a>Michael Dummett, The Philosophical Basis of Intuitionistic Logic, 5 - 40, in in: Logic Colloquium '73, Elsevier (1975)</li><li><a name="princeton_companion_book"></a>Gowers, Barrow-Green & Leader, The Princeton companion to mathematics, Princeton University Press (2010).</li><li><a name="law_excluded_middle_nonconstructive"></a>Norman Megill, Metamath: A Computer Language for Pure Mathematics, Lulu Press (2007).</li><li><a name="intuitionistic_implication_and_dne"></a>Van Dalen, Intuitionistic logic, 225--339, in in: Handbook of philosophical logic, Springer (1986)</li><li><a name="estermann_1975"></a>Estermann, 59.3. The irrationality of $\sqrt{2}$, <i>The Mathematical Gazette</i> <b>59</b> 110–110 (1975).</li><li><a name="sqrt2_irrational_intuitionistic"></a>Myerson & others, Irrationality via well-ordering, <i>AUSTRA\-LIAN MATHEMATICAL SOCIETY GAZETTE</i> <b>35</b> 121 (2008).</li><li><a name="intuitionistic_replace_rimplies"></a>Negri, Von Plato & Ranta, Structural proof theory, Cambridge University Press (2008).</li><li><a name="plato_linear_logic"></a>Di Cosmo & Miller, Linear Logic, in in: The Stanford Encyclopedia of Philosophy, Metaphysics Research Lab, Stanford University (2016)</li><li><a name="lazy"></a>Davoren, A Lazy Logician’s Guide to Linear Logic, <i>Papers 76a--76e in the series Monash University (Department of Mathematics) Logic Papers</i> <b></b> (1992).</li><li><a name="LinearLogicIts1995"></a>Girard, Linear Logic: its syntax and semantics, 1--42, in in: Advances in Linear Logic, Cambridge University Press ()</li><li><a name="bussIntroductionProofTheory1998"></a>Buss, An Introduction to Proof Theory, 1--78, in in: Studies in Logic and the Foundations of Mathematics, Elsevier ()</li><li><a name="strassburgerProofNetsIdentity1992"></a>Straßburger, Proof Nets and the Identity of Proofs, <i>Bulletin of Sociological Methodology/Bulletin de Méthodologie Sociologique</i> <b>37</b> 55--57 ().</li></ol>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara">Whatever that means</div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara">By studying linear logic you can look cool at parties by
+challenging others to see if they can draw an upside-down ampersand on their
+first try.</div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara">Perhaps ⅋ could stand for one of two possible return values by
+a function that is executed by the operating system or over a network and not
+your program.</div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>
